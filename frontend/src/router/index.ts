@@ -113,11 +113,37 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@pages/VehiclePage.vue'),
     meta: { breadcrumb: 'Vehicle', title: 'Vehicle' },
   },
+  // {
+  //   path: '/booking',
+  //   name: 'UserBookingPage',
+  //   component: () => import('@pages/user/booking/BookingPage.vue'), 
+  //   meta: { breadcrumb: 'Booking', title: 'Booking' },
+  // },
   {
     path: '/booking',
-    name: 'UserBookingPage',
-    component: () => import('@pages/user/BookingPage.vue'), 
-    meta: { breadcrumb: 'Booking', title: 'Booking' },
+    name: 'UserBookingPageView',
+    component: () => import('@pages/user/booking/BookingView.vue'), 
+    meta: { breadcrumb: 'Booking', title: 'UserBooking' },
+    children: [
+      {
+        path: '',
+        name: 'UserCheckBookingPage',
+        component: () => import('@pages/user/booking/BookingPage.vue'), 
+        meta: { title: 'UserBooking' },
+      },
+      {
+        path: '/car-list',
+        name: 'UserCarListBookingPage',
+        component: () => import('@pages/user/booking/BookingCarListPage.vue'), 
+        meta: { title: 'UserCarListBooking' },
+      },
+      {
+        path: '/confirmation',
+        name: 'UserBookingConfirmationPage',
+        component: () => import('@pages/user/booking/BookingConfirmation.vue'), 
+        meta: { title: 'UserBookingConfirmation' },
+      },
+    ]
   },
   // {
   //   path: '/:pathMatch(.*)*',

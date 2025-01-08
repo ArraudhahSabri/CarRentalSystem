@@ -6,7 +6,7 @@ import PageHeader from '@components/PageHeader.vue';
 import { useRoute } from 'vue-router';
 import Toaster from '@lib/ui/toast/Toaster.vue'
 
-const isAuth = ref<boolean>(true)
+const isAuth = ref<boolean>(false)
 const openSidebar = ref<boolean>(true)
 const toggleSidebar = () => {
   openSidebar.value = !openSidebar.value

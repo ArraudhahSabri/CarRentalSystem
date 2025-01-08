@@ -11,7 +11,7 @@ defineProps({
     },
     name: {
         type: String,
-        required: true,
+        default: 'Please Select ..'
     },
     items: {
         type: Array,
@@ -25,15 +25,15 @@ defineProps({
 </script>
 
 <template>
-    <div class="mb-6 flex">
-        <label class="text-black me-2 w-1/5">{{ labelName }}</label>
+    <div class="flex">
+        <label class="text-black me-2 w-1/5 !important">{{ labelName }}</label>
         <select v-model="model" :class="[
             'border focus:outline-none focus:ring-2 focus:ring-black', // Default black border
             message ? '!ring-2 ring-red-500' : 'border-black' // Red ring when there's a message
         ]"
         class="rounded w-4/5">
-            <option disabled value="">{{ name }}</option>
-            <option v-for="(item, index) in items" :key="index" :value="item">
+            <option class="text-black !important" disabled value="">{{ name }}</option>
+            <option class="text-black !important" v-for="(item, index) in items" :key="index" :value="item">
                 {{ item }}
             </option>
         </select>

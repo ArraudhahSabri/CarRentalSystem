@@ -9,7 +9,7 @@
         <div class="flex flex-col justify-between h-[calc(100vh-3rem)] bg-gray-900">
             <div class="menu-man text-left px-2 whitespace-nowrap ">
                 <div class="profile flex justify-center items-center text-center p-5 ">
-                    <div class="text-center  text-white" v-show="dataOpenSideBar">
+                    <div class="text-center text-white p-2" v-show="dataOpenSideBar">
                         <img src="https://avatars.githubusercontent.com/u/97021587?v=4" class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4" alt="Avatar" />
                         <h5 class="text-xl font-medium leading-tight mb-2"> My Name</h5>
                         <p class="text-gray-500">Admin </p>
@@ -19,7 +19,7 @@
                     <router-link 
                         to="/dashboard" 
                         class="px-2 flex space-x-2 hover:text-teal-700"
-                        :class="{ 'text-teal-400': $route.path.startsWith('/dashboard') }"
+                        :class="{ 'text-teal-400': $route.path.startsWith('/admin/dashboard') }"
                     >
                         <!-- <span class="pi pi-microsoft" v-tooltip.right="'Dashboard'"></span>  -->
                         <span v-tooltip.right="'Dashboard'" class="pt-1">

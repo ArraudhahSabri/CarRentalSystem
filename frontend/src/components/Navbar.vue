@@ -41,7 +41,7 @@ import HomeIcon from '@icons/HomeIcon.vue';
 <template>
   <div class="w-full bg-gray-100">
       <div class="flex justify-between items-center h-[50px]">
-          <div v-if="isAuth" class="px-4 cursor-pointer  hover:bg-teal-100" @click="clickHambuger">
+          <div v-if="isAuth" class="px-4 cursor-pointer hover:bg-teal-100 py-4" @click="clickHambuger">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

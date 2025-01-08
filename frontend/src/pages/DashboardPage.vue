@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import Layout from '@layouts/auth/Layout.vue';
 
-import { ref } from 'vue';
 import { useVehicleStore } from '@store/vehicle';
 import Card from '@components/Card.vue'; 
-import Table from '@components/Table.vue';
 import TableLib from '@components/TableLib.vue';
 
 const vehicleStore = useVehicleStore();
-const vehicles :any = vehicleStore.getVehicles;
 
 </script>
 

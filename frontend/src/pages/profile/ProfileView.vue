@@ -8,13 +8,13 @@ import { Staff } from '@types/modules/staff';
 import EditProfileIcon from '@icons/EditProfileIcon.vue';
 import { useRoute } from 'vue-router';
 import BackButton from '@components/BackButton.vue';
-import { useToast } from '@lib/ui/toast/use-toast';
+// import { useToast } from '@lib/ui/toast/use-toast';
 
 const staffProfileStore = useStaffProfileStore();
 const route = useRoute();
 const pageTitle = ref(route.meta.title as string || '');
 const staffProfile = ref<Staff>(staffProfileStore.getStaffProfile);
-const { toast } = useToast();
+// const { toast } = useToast();
 
 watch(() => route.meta.title, (newTitle) => {
   pageTitle.value = newTitle as string || '';

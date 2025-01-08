@@ -1,10 +1,22 @@
 <script setup lang="ts">
-import ArrowLeftPipeIcon from '@icons/ArrowLeftPipeIcon.vue';
+import { ref,watch } from 'vue';
+import Card from '@components/Card.vue'; 
+import BackButton from '@components/BackButton.vue';
+import { useRoute } from 'vue-router';
 import Toaster from '@lib/ui/toast/Toaster.vue'
 
-defineProps({
-    layoutType: String,
-})
+const layoutType :string = 'bookingPage';
+const title :string = 'Book Your Car';
+const buttonLabel :string = 'Book';
+const route = useRoute();
+const pageTitle = ref(route.meta.title as string || '');
+
+const emit = defineEmits(['close']);
+
+watch(() => route.meta.title, (newTitle) => {
+  pageTitle.value = newTitle as string || '';
+});
+
 </script>
 
 <template>
@@ -25,36 +37,28 @@ defineProps({
                     </li>
                 </ul>
             </nav>
-            <div 
-                v-if="layoutType == 'homePage'" 
-                class="home-container pt-80 text-white flex flex-col items-center"
-            >
-                <div class="max-w-screen-lg text-center px-4">
-                    <h1 class="font-bold text-3xl sm:text-3xl md:text-3xl lg:text-3xl leading-tight">
-                    Hello, Welcome to <span class="text-blue-600">Car Rental</span> System
-                    </h1>
-                    <router-link 
-                    to="/booking" 
-                    class="flex gap-2 justify-center items-center mt-6 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all"
-                    tag="button"
-                    >
-                    <span>Booking Now!</span>
-                    <ArrowLeftPipeIcon class="mt-1"/>
-                    </router-link>
+            <div class="flex items-center justify-center">
+                <div class="w-full p-6 space-y-6">
+                    <Card height="85vh" :title="title">
+                        <div v-if="pageTitle !== 'UserBooking'" class="flex justify-start">
+                            <BackButton class="me-2 mb-2"/>
+                        </div>
+                        <div class="space-y-4 text-start">
+                            <router-view></router-view>
+                        </div>
+                    </Card>
+                    <Toaster />
                 </div>
             </div>
-            <div v-else-if="layoutType == 'bookingPage'" class="home-container pt-80 text-white">
-                
-            </div>
-            <div v-else-if="layoutType == 'loginPage'" class="home-container pt-80 text-white">
-                <h1 class="font-bold text-4xl"><span class="text-blue-600">Login</span> Page</h1>
-            </div>
-            <Toaster />
         </div>
     </div>
+  <!-- </Layout> -->
 </template>
 
 <style>
+*{
+    /* color: white; */
+}
 .parent-overlay {
     position: relative;
     width: 100%;
@@ -76,9 +80,11 @@ defineProps({
 .content {
     position: relative;
     z-index: 2;
-    color: white;
+    /* color: white; */
     text-align: center;
     padding: 20px;
+    max-height: calc(100vh); /* Ensure that the content section doesn't overflow */
+  overflow-y: auto; /* Allow scrolling for child content */
 }
 
 .nav-link {

@@ -10,11 +10,19 @@ defineProps({
     type: String,
     default: '',
   },
+  height: {
+    type: String,
+    default: '82vh'
+  },
+  width: {
+    type: String,
+    default: '100%'
+  }
 });
 </script>
 
 <template>
-  <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4" style="height: 82vh;">
+  <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4" :style="{ height: height, width: width }">
     <div v-if="title" class="mb-4 text-lg font-semibold text-gray-700">
       {{ title }}
     </div>
