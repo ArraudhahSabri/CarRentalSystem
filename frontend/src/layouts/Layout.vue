@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import ArrowLeftPipeIcon from '@icons/ArrowLeftPipeIcon.vue';
+import { onMounted } from 'vue';
 import Toaster from '@lib/ui/toast/Toaster.vue'
 
 defineProps({
     layoutType: String,
-})
+});
+
+onMounted(() => {
+    if (typeof document !== 'undefined') {
+        const textElement = document.querySelector('.animated-text');
+        if (textElement) {
+            textElement.classList.add('fade-in');
+        }
+    }
+});
 </script>
 
 <template>
@@ -84,7 +94,7 @@ defineProps({
 .nav-link {
     font-weight: 600;
     padding: 10px 20px;
-    color: black;
+    color: white;
     text-decoration: none;
     background: transparent;
     border-radius: 8px;
@@ -94,6 +104,55 @@ defineProps({
 .nav-link:hover {
     background-color: #14b8a6;
     color: white;
+}
+
+/* Animation styles */
+.animated-text {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.animated-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.welcome-text {
+    animation: fadeInUp 0.8s ease forwards 0.5s;
+}
+
+.car-rental-text {
+    animation: fadeInUp 0.8s ease forwards 1s;
+}
+
+.system-text {
+    animation: fadeInUp 0.8s ease forwards 1.5s;
+}
+
+.booking-button {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 2s;
+    padding: 12px 24px;
+    background-color: #14b8a6;
+    color: white;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.booking-button:hover {
+    transform: translateY(-2px);
+    background-color: #0d9488;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 640px) {
@@ -107,6 +166,10 @@ defineProps({
 
     .nav-link {
         font-size: 14px;
+    }
+
+    .animated-text {
+        font-size: 1.8rem;
     }
 }
 </style>

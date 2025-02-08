@@ -46,11 +46,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Ensure this comes before CSRF middleware
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -71,10 +71,10 @@ TEMPLATES = [
     },
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://127.0.0.1:5174", 
-#     "http://localhost:5174/"
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+]
 CORS_ALLOW_ALL_ORIGINS = True
 
 
@@ -90,6 +90,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Comment out Oracle settings
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.oracle',
+#         'NAME': 'CarRentalSystem',
+#         'USER': 'system',
+#         'PASSWORD': 'system',
+#         'HOST': 'localhost',
+#         'PORT': '1521',
+#     }
+# }
 
 
 # Password validation
@@ -109,6 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
 
 
 # Internationalization
@@ -132,3 +146,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
