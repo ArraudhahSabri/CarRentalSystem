@@ -16,11 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from .views import HelloWorldView
+from rest_framework.routers import DefaultRouter
+from api.views import (
+    CustomerViewSet, VehicleViewSet, VehicleMaintenanceViewSet,
+    StaffViewSet, DiscountViewSet, BookingViewSet,
+    BillingViewSet, PaymentViewSet
+)
+
+router = DefaultRouter()
+router.register(r'customers', CustomerViewSet)
+router.register(r'vehicles', VehicleViewSet)
+router.register(r'maintenance', VehicleMaintenanceViewSet)
+router.register(r'staff', StaffViewSet)
+router.register(r'discounts', DiscountViewSet)
+router.register(r'bookings', BookingViewSet)
+router.register(r'billing', BillingViewSet)
+router.register(r'payments', PaymentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    path('api/', include(router.urls)),
 ]
 
 # urlpatterns = [

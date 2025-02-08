@@ -1,41 +1,54 @@
 <script>
 import HomeIcon from '@icons/HomeIcon.vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
-  export default {
-    props: {
-      dataOpenSideBar: Boolean,
-      clickHambuger: Function,
-      isAuth: Boolean
-    },
-    data() {
-      return {
-        items: [
-          {
-            label: 'Logout',
-            icon: 'pi pi-refresh',
-            command: () => {
-              this.$toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+export default {
+  props: {
+    dataOpenSideBar: Boolean,
+    clickHambuger: Function,
+    isAuth: Boolean
+  },
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
+  data() {
+    return {
+      items: [
+        {
+          label: 'Logout',
+          icon: 'pi pi-sign-out',
+          command: async () => {
+            try {
+              await axios.post('/api/auth/logout/');
+              localStorage.removeItem('token');
+              this.router.push('/login');
+              this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Logged out successfully', life: 3000 });
+            } catch (error) {
+              this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Logout failed', life: 3000 });
             }
-          },
-          {
-            label: 'Change Password',
-            icon: 'pi pi-times',
-            command: () => {
-              this.$toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
-            }
-          },
-        ]
-      }
-    },
-    methods: {
-      toggle(event) {
-        this.$refs.menu.toggle(event);
-      },
-    },
-    components: {
-      HomeIcon
+          }
+        },
+        {
+          label: 'Change Password',
+          icon: 'pi pi-key',
+          command: () => {
+            this.router.push('/change-password');
+          }
+        },
+      ]
     }
+  },
+  methods: {
+    toggle(event) {
+      this.$refs.menu.toggle(event);
+    },
+  },
+  components: {
+    HomeIcon
   }
+}
 </script>
 
 <template>
