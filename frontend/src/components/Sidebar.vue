@@ -2,7 +2,7 @@
     <div class="h-screen   bg-gray-800" id="side-bar" :class="dataOpenSideBar == true ? 'side-bar-visible' : 'side-bar-close'">
         <div class="bg-gray-700 h-[50px] flex justify-center items-center ">
             <div class="text-xl font-bold text-center flex items-center justify-center text-white h-full" v-show="dataOpenSideBar">
-                APP DEV
+                CAR RENTAL
             </div>
             <img src="https://avatars.githubusercontent.com/u/97021587?v=4" v-show="!dataOpenSideBar" class="p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500 " alt="Avatar" />
         </div>
@@ -11,7 +11,7 @@
                 <div class="profile flex justify-center items-center text-center p-5 ">
                     <div class="text-center text-white p-2" v-show="dataOpenSideBar">
                         <img src="https://avatars.githubusercontent.com/u/97021587?v=4" class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4" alt="Avatar" />
-                        <h5 class="text-xl font-medium leading-tight mb-2"> My Name</h5>
+                        <h5 class="text-xl font-medium leading-tight mb-2">Staff Name</h5>
                         <p class="text-gray-500">Admin </p>
                     </div>
                 </div>

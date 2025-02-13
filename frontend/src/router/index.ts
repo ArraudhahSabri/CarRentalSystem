@@ -91,27 +91,59 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/admin/booking',
-    name: 'BookingPage',
-    component: () => import('@pages/BookingPage.vue'),
+    name: 'BookingView',
+    component: () => import('@pages/booking/BookingView.vue'),
     meta: { breadcrumb: 'Booking', title: 'Booking' },
+    children: [
+      {
+        path: '',
+        name: 'BookingPage',
+        component: () => import('@pages/booking/BookingPage.vue'),
+        meta: { title: 'Booking' },
+      },
+    ]
   },
   {
     path: '/admin/billing',
-    name: 'BillingPage',
-    component: () => import('@pages/BillingPage.vue'),
+    name: 'BillingView',
+    component: () => import('@pages/billing/BillingView.vue'),
     meta: { breadcrumb: 'Billing', title: 'Billing' },
+    children: [
+      {
+        path: '',
+        name: 'BillingPage',
+        component: () => import('@pages/billing/BillingPage.vue'),
+        meta: { title: 'Billing' },
+      },
+    ]
   },
   {
     path: '/admin/discount',
-    name: 'DiscountPage',
-    component: () => import('@pages/DiscountPage.vue'),
+    name: 'DiscountView',
+    component: () => import('@pages/discount/DiscountView.vue'),
     meta: { breadcrumb: 'Discount', title: 'Discount' },
+    children: [
+      {
+        path: '',
+        name: 'DiscountPage',
+        component: () => import('@pages/discount/DiscountPage.vue'),
+        meta: { title: 'Discount' },
+      },
+    ]
   },
   {
     path: '/admin/vehicle',
-    name: 'VehiclePage',
-    component: () => import('@pages/VehiclePage.vue'),
+    name: 'VehicleView',
+    component: () => import('@pages/vehicle/VehicleView.vue'),
     meta: { breadcrumb: 'Vehicle', title: 'Vehicle' },
+    children: [
+      {
+        path: '',
+        name: 'VehiclePage',
+        component: () => import('@pages/vehicle/VehiclePage.vue'),
+        meta: { title: 'Vehicle' },
+      },
+    ]
   },
   // {
   //   path: '/booking',

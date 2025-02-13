@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import Layout from '@layouts/auth/Layout.vue';
-import { ref } from 'vue';
-import { useVehicleStore } from '@store/vehicle';
-import Card from '@components/Card.vue'; 
-import Table from '@components/Table.vue';
-import TableLib from '@components/TableLib.vue';
+import { computed, onMounted } from 'vue';
 import { useCustomerStore } from '@store/customer';
+import TableLib from '@components/TableLib.vue';
 import { Customer } from '@types/modules/customer';
 
 const customerStore = useCustomerStore();
-const customers = ref<Customer[]>(customerStore.getCustomers);
-const columns: Array<string> = ['Name', 'Email', 'Address', 'Date Of Birth', 'License Type'];
+const customers = computed<Customer[]>(() => customerStore.getCustomers);
+onMounted(() => {
+  customerStore.fetchCustomers();
+});
 </script>
 
 <template>
-  <TableLib :data="customers" :columns="columns" dataType="Customer" />
+  <TableLib :data="customers" dataType="Customer" />
 </template>

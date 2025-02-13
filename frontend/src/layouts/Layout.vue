@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import ArrowLeftPipeIcon from '@icons/ArrowLeftPipeIcon.vue';
-import { onMounted } from 'vue';
-import Toaster from '@lib/ui/toast/Toaster.vue'
+import { onMounted, ref } from 'vue';
+import Toaster from '@lib/ui/toast/Toaster.vue';
+import Tabs from '@components/Tabs.vue';
+import Card from '@components/Card.vue';
+import TextInput from '@components/TextInput.vue';
+import Button from '@components/Button.vue';
+import { useRouter } from 'vue-router';
+import { useToast } from '@lib/ui/toast/use-toast';
+import { useAuthStore } from '@store/auth';
 
 defineProps({
     layoutType: String,
@@ -15,6 +22,47 @@ onMounted(() => {
         }
     }
 });
+
+const authStore = useAuthStore();
+
+const inputValue = ref({
+    'email': '',
+    'password': '',
+});
+
+async function handleLogin() :Promise<boolean>{
+    try {
+        // const result :Promise<any> = await userStore.login(user);
+        const result = await authStore.login(inputValue.value);
+        if (result) {
+            toast({
+                title: 'Login successful',
+                description: 'Thank you',
+                variant: 'default',
+            });
+            console.log('Login successful:', result);
+            router.push({ name: 'ProfilePage' });
+        } else {
+            toast({
+                title: 'Login failed',
+                description: 'Please try again later',
+                variant: 'destructive',
+            });
+            console.error("Login failed:", error);
+        }
+    } catch (error) {
+        toast({
+            title: 'Login failed',
+            description: 'Please try again later',
+            variant: 'destructive',
+        });
+        console.error("Login failed:", error);
+    }
+}
+
+const { toast } = useToast();
+const router = useRouter();
+
 </script>
 
 <template>
@@ -56,8 +104,45 @@ onMounted(() => {
             <div v-else-if="layoutType == 'bookingPage'" class="home-container pt-80 text-white">
                 
             </div>
-            <div v-else-if="layoutType == 'loginPage'" class="home-container pt-80 text-white">
-                <h1 class="font-bold text-4xl"><span class="text-blue-600">Login</span> Page</h1>
+            <div v-else-if="layoutType == 'loginPage'" class="home-container text-white">
+                <!-- <h1 class="font-bold text-4xl"><span class="text-blue-600">Login</span> Page</h1> -->
+                <div style="width: 50vw;" class="mx-auto flex flex-col items-center justify-center h-screen">
+                    <Card
+                        height="30vh"
+                        width="100%"
+                        class="bg-teal-50 border border-teal-200 shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out cursor-pointer"
+                    >
+                        <div class="flex items-center p-4 mb-4" style="height: 100%;">
+                            <h1 class="font-bold text-2xl text-blue-600 mx-auto">Login</h1>
+                        </div>
+                        <div class="space-y-4 text-start">
+                            <form @submit.prevent="handleLogin">
+                                <div class="mx-auto" style="width: 50vh;">
+                                    <TextInput
+                                        labelName="Email"
+                                        v-model="inputValue.email"
+                                        type="text"
+                                        class="pb-4"
+                                    />
+                                </div>
+                                <div class="mx-auto" style="width: 50vh;">
+                                    <TextInput
+                                        labelName="Password"
+                                        v-model="inputValue.password"
+                                        type="password"
+                                        class="pb-4"
+                                    />
+                                </div>
+                                <div class="flex justify-center">
+                                    <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                        Login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </Card>
+                </div>
+
             </div>
             <Toaster />
         </div>

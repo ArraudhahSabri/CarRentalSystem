@@ -8,7 +8,7 @@ import '@assets/style.css';
 import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-dt';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 DataTable.use(DataTablesCore);
 const app = createApp(App);

@@ -9,6 +9,7 @@
       "@icons/*": ["src/icons/*"],
       "@images/*": ["src/assets/images/*"],
       "@router/*": ["src/router/*"],
+      "@services/*": ["src/services/*"],
       "@assets/*": ["src/assets/*"],
       "@store/*": ["src/store/*"],
       "@lib/*": ["src/lib/*"],

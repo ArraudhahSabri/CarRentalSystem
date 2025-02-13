@@ -27,6 +27,7 @@ export default defineConfig({
         '@types': resolve(__dirname, 'src/types'),
         '@lib': resolve(__dirname, 'src/lib'),
         '@profile': resolve(__dirname, 'src/pages/profile'),
+        '@services': resolve(__dirname, 'src/services'),
     },
   },
 })

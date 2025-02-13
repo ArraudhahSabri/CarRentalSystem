@@ -1,10 +1,13 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  // baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api",
   headers: {
     'Content-Type': 'application/json',
-  }
+    'access-control-allow-origin' :'*'
+  },
+  // withCredentials: true,
 });
 
 // Add request interceptor to include auth token
@@ -21,6 +24,13 @@ export const vehicleService = {
   createVehicle: (data) => api.post('/vehicles/', data),
   updateVehicle: (id, data) => api.put(`/vehicles/${id}/`, data),
   deleteVehicle: (id) => api.delete(`/vehicles/${id}/`),
+};
+
+export const discountService = {
+  getDiscounts: () => api.get('/discounts/'),
+  createDiscount: (data) => api.post('/discounts/', data),
+  updateDiscount: (id, data) => api.put(`/discounts/${id}/`, data),
+  deleteDiscount: (id) => api.delete(`/discounts/${id}/`),
 };
 
 export const bookingService = {
