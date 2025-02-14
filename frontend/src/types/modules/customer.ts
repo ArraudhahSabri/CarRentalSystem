@@ -3,9 +3,9 @@ export interface Customer {
     first_name: string;
     last_name: string;
     email: string;
-    phone_no: string;
+    phone_number: string;
     address: string;
     license_type: string;
     date_of_birth: Date;
-    registration_date: Date;
+    register_date: Date;
 }

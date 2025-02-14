@@ -14,6 +14,7 @@ const vehicleStore = useVehicleStore();
     <template #content>
         <div style="margin-top: 4rem;"></div>
         <div class="max-w-screen-xl mx-auto px-4">
+          hbjhb
             <Card title="Vehicle" footer="vehicles">
                 <TableLib/>
             </Card>

@@ -71,11 +71,11 @@ export default {
               </svg>
           </div>
           <div class="p-4" v-else>
-            <HomeIcon/>
+            <!-- <HomeIcon/> -->
           </div>
           <div v-if="!isAuth" class="py-2">
               <!-- <InputText type="text" v-model="value" class="h-[40px]" placeholder="Search.." /> -->
-              text input here maybe
+              <!-- text input here maybe -->
           </div>
           <div class="flex space-x-3 items-center justify-center px-3">
               <!-- <div class="text-md">

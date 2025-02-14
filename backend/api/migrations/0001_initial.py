@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('booking_id', models.IntegerField(primary_key=True, serialize=False)),
                 ('customer_id', models.IntegerField()),
                 ('vehicle_id', models.IntegerField()),
-                ('discount_id', models.CharField(max_length=25)),
+                ('discount_id', models.CharField(max_length=25, null=True, blank=True)),
                 ('booking_date', models.DateField()),
                 ('pickup_date', models.DateField()),
                 ('return_date', models.DateField()),

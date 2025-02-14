@@ -11,10 +11,10 @@ class Customer(models.Model):
     license_type = models.CharField(max_length=25)
     date_of_birth = models.DateField()
     register_date = models.DateField()
-    create_at = models.DateField(auto_now_add=True)
-    update_at = models.DateField(auto_now=True)
-    create_by = models.CharField(max_length=500)
-    update_by = models.CharField(max_length=500)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    created_by = models.CharField(max_length=500)
+    updated_by = models.CharField(max_length=500)
 
 # VEHICLE_MAINTENANCE Table
 class VehicleMaintenance(models.Model):
@@ -50,7 +50,7 @@ class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
-    discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True)
+    discount = models.ForeignKey('Discount', on_delete=models.SET_NULL, null=True, blank=True)
     booking_date = models.DateField()
     pickup_date = models.DateField()
     return_date = models.DateField()
@@ -101,6 +101,7 @@ class Discount(models.Model):
     valid_from = models.DateField()
     valid_to = models.DateField()
     discount_description = models.CharField(max_length=50)
+    discount_percentage = models.FloatField() 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     created_by = models.CharField(max_length=500)

@@ -2,7 +2,7 @@
     <div class="h-screen   bg-gray-800" id="side-bar" :class="dataOpenSideBar == true ? 'side-bar-visible' : 'side-bar-close'">
         <div class="bg-gray-700 h-[50px] flex justify-center items-center ">
             <div class="text-xl font-bold text-center flex items-center justify-center text-white h-full" v-show="dataOpenSideBar">
-                APP DEV
+                CAR RENTAL
             </div>
             <img src="https://avatars.githubusercontent.com/u/97021587?v=4" v-show="!dataOpenSideBar" class="p-1 w-8 h-8 rounded-full ring-2 ring-gray-100 dark:ring-gray-500 " alt="Avatar" />
         </div>
@@ -11,17 +11,16 @@
                 <div class="profile flex justify-center items-center text-center p-5 ">
                     <div class="text-center text-white p-2" v-show="dataOpenSideBar">
                         <img src="https://avatars.githubusercontent.com/u/97021587?v=4" class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4" alt="Avatar" />
-                        <h5 class="text-xl font-medium leading-tight mb-2"> My Name</h5>
-                        <p class="text-gray-500">Admin </p>
+                        <!-- <h5 class="text-xl font-medium leading-tight mb-2">Staff Name</h5>
+                        <p class="text-gray-500">Admin </p> -->
                     </div>
                 </div>
-                <div class="   py-3 rounded-sm cursor-pointer text-gray-300 hover:text-white">
+                <!-- <div class="   py-3 rounded-sm cursor-pointer text-gray-300 hover:text-white">
                     <router-link 
                         to="/dashboard" 
                         class="px-2 flex space-x-2 hover:text-teal-700"
                         :class="{ 'text-teal-400': $route.path.startsWith('/admin/dashboard') }"
                     >
-                        <!-- <span class="pi pi-microsoft" v-tooltip.right="'Dashboard'"></span>  -->
                         <span v-tooltip.right="'Dashboard'" class="pt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M10 12a2 2 0 1 1 4 0a2 2 0 0 1-4 0" />
@@ -30,7 +29,7 @@
                         </span>
                         <span v-show="dataOpenSideBar">Dashboard</span>
                     </router-link>
-                </div>
+                </div> -->
                 <div class="   py-3 rounded-md cursor-pointer  text-gray-300 hover:text-white">
                     <router-link 
                         to="/admin/profile" 
@@ -121,6 +120,21 @@
                             </svg>
                         </span>
                         <span v-show="dataOpenSideBar">Vehicle</span>
+                    </router-link>
+                </div>
+                <div class="  py-3 rounded-md cursor-pointer text-gray-300 hover:text-white">
+                    <router-link 
+                        to="/admin/maintenance" 
+                        class="px-2 flex space-x-2 hover:text-teal-700"
+                        :class="{ 'text-teal-400': $route.path.startsWith('/admin/maintenance') }"
+                    >
+                        <span v-tooltip.right="'Vehicle Maintenance'" class="pt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M10 12a2 2 0 1 1 4 0a2 2 0 0 1-4 0" />
+                                <path fill="currentColor" fill-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-6a4 4 0 1 0 0-8a4 4 0 0 0 0 8" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <span v-show="dataOpenSideBar">Vehicle Maintenance</span>
                     </router-link>
                 </div>
             </div>

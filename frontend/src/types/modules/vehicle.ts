@@ -1,15 +1,15 @@
 export interface Vehicle {
     vehicle_id: string;
     make: string;
-    model: string;
-    year: number;
+    vehicle_model: string;
+    model_year: number;
     vehicle_type: string;
     color: string;
-    plate_no: string;
+    plate_number: string;
     mileage: number;
     current_service_date: Date;
     current_condition: string;
-    status: string;
+    status: string | number;
 }
 
 export interface VehicleTest {
