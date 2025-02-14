@@ -1,10 +1,15 @@
 import { defineStore } from "pinia";
 import { Booking } from "@types/modules/booking";
-import { bookingService } from '../services/api'
+import { bookingService } from '../services/api';
+import { ref } from "vue";
 
 export const useBookingStore = defineStore('booking', {
     state: () => ({
         bookings: [] as Booking[] | null, 
+        // currentBooking: JSON.parse(localStorage.getItem("currentBooking") || "null") as Partial<Booking> | null, // Load from storage
+        currentBooking: ref<Partial<Booking> | null>(
+            JSON.parse(localStorage.getItem("currentBooking") || "null")
+        ),
         loading: false,
         error: null as string | null
     }),
@@ -12,6 +17,9 @@ export const useBookingStore = defineStore('booking', {
         getBookings(state): Booking[] {
             return state.bookings;
         },
+        getCurrentBooking(state): Partial<Booking> {
+            return state.currentBooking;
+        }
     },
     actions: {
         async fetchBookings() {
@@ -66,6 +74,24 @@ export const useBookingStore = defineStore('booking', {
                 this.error = error.response?.data?.message || "Error deleting booking";
                 throw new Error(`Delete failed with error: ${error}`);
             }
-        }        
+        },        
+        async setCurrentBooking(bookingData) {
+            try{
+                if (!this.bookings || this.bookings.length === 0) {
+                    await this.fetchBookings();
+                }
+                // const vehicle = this.bookings.find(b => 
+                //     v.make === vehicleData.make || 
+                //     v.vehicle_model === vehicleData.vehicle_model ||
+                //     v.plate_no === vehicleData.plate_no 
+                // );
+                // console.log(bookingData);
+                localStorage.setItem("currentBooking", JSON.stringify(bookingData));
+                this.currentBooking = bookingData;
+            }catch(error){
+                console.error(error)
+                throw new Error(error);
+            }
+        }
     }
 })

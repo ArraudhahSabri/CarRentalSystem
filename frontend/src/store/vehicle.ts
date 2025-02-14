@@ -5,6 +5,7 @@ import { vehicleService } from '../services/api'
 export const useVehicleStore = defineStore('vehicle', {
     state: () => ({
         vehicles: [] as Vehicle[] | null, 
+        currentVehicle: JSON.parse(localStorage.getItem("currentVehicle") || "null") as Vehicle | null, // Load from storage
         loading: false,
         error: null as string | null
     }),
@@ -67,6 +68,26 @@ export const useVehicleStore = defineStore('vehicle', {
                 this.error = error.response?.data?.message || "Error deleting vehicle";
                 throw new Error(`Delete failed with error: ${error}`);
             }
-        }        
+        },
+        async setSelectedVehicle(vehicleData :Vehicle) {
+            try{
+                if (!this.vehicles || this.vehicles.length === 0) {
+                    await this.fetchVehicles();
+                }
+                const vehicle = this.vehicles.find(v => 
+                    v.make === vehicleData.make || 
+                    v.vehicle_model === vehicleData.vehicle_model ||
+                    v.plate_no === vehicleData.plate_no 
+                );
+                if (vehicle) {
+                    localStorage.setItem("currentVehicle", JSON.stringify(vehicleData));
+                    this.currentVehicle = vehicleData;
+                } else {
+                    throw new Error(`Vehicle does not exists `);
+                }
+            }catch(error){
+                throw new Error(`Customer with this email or phone number already exists `);
+            }
+        }       
     }
 })

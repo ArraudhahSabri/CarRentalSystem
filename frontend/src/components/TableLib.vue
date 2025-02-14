@@ -53,12 +53,14 @@ import { useDiscountStore } from '@store/discount';
 import { useCustomerStore } from '@store/customer';
 import { useBillingStore } from '@store/billing';
 import { useBookingStore } from '@store/booking';
+import { useVehicleMaintenanceStore } from '@store/vehicleMaintenance';
 
 import { Customer } from '@types/modules/customer'
 import { Vehicle } from '@types/modules/vehicle'
 import { Discount } from '@types/modules/discount';
 import { Booking } from '@types/modules/booking';
 import { Billing } from '@types/modules/billing';
+import { VehicleMaintenance } from '@types/modules/vehicleMaintenance';
 
 
 interface TableLibProps<T> {
@@ -85,6 +87,8 @@ if(props.dataType === "Customer"){
   data = ref<Billing[]>(props.data);
 }else if(props.dataType === "Booking"){
   data = ref<Booking[]>(props.data);
+}else if(props.dataType === "Vehicle Maintenance"){
+  data = ref<VehicleMaintenance[]>(props.data);
 }
 
 const inputVModel = ref('')
@@ -101,6 +105,7 @@ const discountStore = useDiscountStore();
 const customerStore = useCustomerStore();
 const bookingStore = useBookingStore();
 const billingStore = useBillingStore();
+const vehicleMaintenanceStore = useVehicleMaintenanceStore();
 
 const filteredColumns = computed(() =>
   columns.filter((col) => col.accessorKey !== "action")
@@ -194,6 +199,23 @@ const saveChanges = async (updatedData) => {
       toast({
           title: 'Update failed',
           description: 'Billing data failed to update',
+          variant: 'destructive',
+      });
+    }
+  }else if(props.dataType === "Vehicle Maintenance"){
+    console.log("Updated Data:", updatedData);
+    try{
+      await vehicleMaintenanceStore.updateVehicleMaintenance(updatedData.id,updatedData);
+      await vehicleMaintenanceStore.fetchVehicleMaintenances();
+      toast({
+          title: 'Update Successfully',
+          description: 'Vehicle maintenance data has been updated successfuly',
+          variant: 'default',
+      });
+    }catch(error){
+      toast({
+          title: 'Update failed',
+          description: 'Vehicle maintenance data failed to update',
           variant: 'destructive',
       });
     }
@@ -318,12 +340,36 @@ const deleteData = async (row) => {
           variant: 'destructive',
       });
     }
+  }else if(props.dataType === "Vehicle Maintenance"){
+    try{
+      if (!selectedRow.value){
+        showDeleteModal.value = false;
+        return;
+      } 
+      showDeleteModal.value = false;
+      console.log(selectedRow.value)
+      await vehicleMaintenanceStore.deleteVehicleMaintenance(selectedRow.value.id);
+      await vehicleMaintenanceStore.fetchVehicleMaintenances();
+      toast({
+          title: 'Delete Successfully',
+          description: 'Vehicle maintenance data has been deleted successfuly',
+          variant: 'default',
+      });
+    }catch(error){
+      showDeleteModal.value = false;
+      toast({
+          title: 'Delete failed',
+          description: error.message,
+          variant: 'destructive',
+      });
+    }
   }
 }
 
 const handleCreate = async (newData) => {
   if (props.dataType === "Vehicle"){
     showCreateModal.value = false; 
+    console.log(newData)
     try{
       await vehicleStore.createVehicle(newData);
       await vehicleStore.fetchVehicles();
@@ -407,6 +453,24 @@ const handleCreate = async (newData) => {
       toast({
           title: 'Create failed',
           description: 'Billing data failed to create',
+          variant: 'destructive',
+      });
+    }
+  }else if (props.dataType === "Vehicle Maintenance"){
+    showCreateModal.value = false; 
+    console.log(newData)
+    try{
+      await vehicleMaintenanceStore.createVehicleMaintenance(newData);
+      await vehicleMaintenanceStore.fetchVehicleMaintenances();
+      toast({
+          title: 'Create Successfully',
+          description: 'Vehicle maintenance data has been created successfuly',
+          variant: 'default',
+      });
+    }catch(error){
+      toast({
+          title: 'Create failed',
+          description: 'Vehicle maintenance data failed to create',
           variant: 'destructive',
       });
     }
@@ -741,7 +805,7 @@ if (props.dataType === "Customer") {
     }
   );
 } else if (props.dataType === "Booking") {
-  isCreateable.value = true;
+  // isCreateable.value = true;
   columns.push(
     {
       accessorKey: 'no',
@@ -751,17 +815,20 @@ if (props.dataType === "Customer") {
     {
       accessorKey: 'customer',
       header: 'Customer',
-      cell: ({ row }) => h('div', { class: 'uppercase' }, row.getValue('customer')),
+      cell: ({ row }) => h('div', { class: 'uppercase' }, 'Muhammad Ali'),
+      // cell: ({ row }) => h('div', { class: 'uppercase' }, row.getValue('customer')),
     },
     {
       accessorKey: 'vehicle',
       header: 'Vehicle',
-      cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('vehicle')),
+      cell: ({ row }) => h('div', { class: 'capitalize' }, 'Honda City'),
+      // cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('vehicle')),
     },
     {
       accessorKey: 'discount',
       header: 'Discount',
-      cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('discount')),
+      cell: ({ row }) => h('div', { class: 'capitalize' }, '-'),
+      // cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('discount')),
     },
     {
       accessorKey: 'pickup_date',
@@ -786,7 +853,8 @@ if (props.dataType === "Customer") {
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => h('div', {}, row.getValue('status')),
+      // cell: ({ row }) => h('div', {}, row.getValue('status')),
+      cell: ({ row }) => h('div', {}, 'Pending'),
     },
     {
       accessorKey: 'total_price',
@@ -870,17 +938,113 @@ if (props.dataType === "Customer") {
     {
       accessorKey: 'payment_status',
       header: 'Payment Status',
-      cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('payment_status')),
+      // cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('payment_status')),
+      cell: ({ row }) => h('div', { class: 'capitalize' }, 'Pending'),
     },
     {
       accessorKey: 'payment_method',
       header: 'Payment Method',
-      cell: ({ row }) => h('div', {}, row.getValue('payment_method')),
+      // cell: ({ row }) => h('div', {}, row.getValue('payment_method')),
+      cell: ({ row }) => h('div', {}, 'Cash'),
     },
     {
       accessorKey: 'payment_date',
       header: 'Payment Date',
       cell: ({ row }) => h('div', {}, row.getValue('payment_date')),
+    },
+    {
+      accessorKey: "action",
+      header: "Action",
+      cell: ({ row }) =>
+        h("div", {}, [
+          h(
+            "button",
+            {
+              class:
+                "text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center",
+              onClick: () => editRow(row.original),
+            },
+            [
+              h("span", {}, [
+                h("svg", {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  "stroke-width": "1.5",
+                  stroke: "currentColor",
+                  class: "w-4 h-4",
+                  innerHTML:
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />',
+                }),
+              ]),
+              h("span", {}),
+              // h("span", {}, "Edit"),
+            ]
+          ),
+          h(
+            "button",
+            {
+              class:
+                "text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center",
+                onClick: () => confirmDelete(row.original),
+            },
+            [
+              h("span", {}, [
+                h("svg", {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  "stroke-width": "1.5",
+                  stroke: "currentColor",
+                  class: "w-4 h-4",
+                  innerHTML:
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />',
+                }),
+              ]),
+              // h("span", {}, "Delete"),
+              h("span", {}),
+            ]
+          ),
+        ]),
+    }
+  );
+} else if (props.dataType === "Vehicle Maintenance") {
+  isCreateable.value = true;
+  columns.push(
+    {
+      accessorKey: 'no',
+      header: 'No',
+      cell: ({ row }) => h('div', {}, row.index + 1),
+    },
+    {
+      accessorKey: 'vehicle',
+      header: 'Vehicle',
+      cell: ({ row }) => h('div', { class: 'uppercase' }, row.getValue('vehicle')),
+    },
+    {
+      accessorKey: 'maintenance_date',
+      header: 'Maintenance Date',
+      cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('maintenance_date')),
+    },
+    {
+      accessorKey: 'service_description',
+      header: 'Service Description',
+      cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('service_description')),
+    },
+    {
+      accessorKey: 'mileage_at_service',
+      header: 'Mileage at Service',
+      cell: ({ row }) => h('div', {}, row.getValue('mileage_at_service')),
+    },
+    {
+      accessorKey: 'next_service_mileage',
+      header: 'Next Service Mileage',
+      cell: ({ row }) => h('div', {}, row.getValue('next_service_mileage')),
+    },
+    {
+      accessorKey: 'service_cost',
+      header: 'Service Cost',
+      cell: ({ row }) => h('div', {}, row.getValue('service_cost')),
     },
     {
       accessorKey: "action",

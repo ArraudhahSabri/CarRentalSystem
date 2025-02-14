@@ -5,6 +5,8 @@ import { customerService } from '../services/api'
 export const useCustomerStore = defineStore('customer', {
     state: () => ({
         customers: [] as Customer[] | null, 
+        // currentCustomer: null as Customer | null,
+        currentCustomer: JSON.parse(localStorage.getItem("currentCustomer") || "null") as Customer | null, // Load from storage
         loading: false,
         error: null as string | null
     }),
@@ -12,6 +14,9 @@ export const useCustomerStore = defineStore('customer', {
         getCustomers(state): Customer[] {
             return state.customers;
         },
+        getCurrentCust(state): Customer {
+            return state.currentCustomer;
+        }
     },
     actions: {
         async fetchCustomers() {
@@ -66,6 +71,51 @@ export const useCustomerStore = defineStore('customer', {
                 this.error = error.response?.data?.message || "Error deleting customer";
                 throw new Error(`Delete failed with error: ${error}`);
             }
-        }        
+        },
+        async getCurrentCustomer(email :string) :Promise<boolean>{
+            try{
+                // await this.fetchCustomers();
+                if (!this.customers || this.customers.length === 0) {
+                    await this.fetchCustomers();
+                }
+                const customer = this.customers.find(c => c.email === email);
+                if (customer) {
+                    localStorage.setItem("currentCustomer", JSON.stringify(customer)); // 🔥 Save to localStorage
+                    this.currentCustomer = customer;
+                    return true;
+                } else {
+                    localStorage.removeItem("currentCustomer");
+                    this.currentCustomer = null;
+                    return false;
+                }
+            }catch(error){
+                console.log(`error fetch current customer : ${error}`);
+                // return this.currentCust;
+                return false;
+            }
+        }, 
+        async checkOrCreateCustomer(customerData :Customer) {
+            try{
+                if (!this.customers || this.customers.length === 0) {
+                    await this.fetchCustomers();
+                }
+                const customer = this.customers.find(c => 
+                    c.email === customerData.email || c.phone_number === customerData.phone_number
+                );
+                if (customer) {
+                    throw new Error(`Customer with this email or phone number already exists `);
+                } else {
+                    try{
+                        const response = await this.createCustomer(customerData);
+                        localStorage.setItem("currentCustomer", JSON.stringify(customerData)); // 🔥 Save to localStorage
+                        this.currentCustomer = customerData;
+                    }catch(error){
+                        throw new Error(`Create customer failed`);
+                    }
+                }
+            }catch(error){
+                throw new Error(`Customer with this email or phone number already exists `);
+            }
+        }       
     }
 })

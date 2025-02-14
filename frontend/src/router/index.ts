@@ -145,6 +145,20 @@ const routes: RouteRecordRaw[] = [
       },
     ]
   },
+  {
+    path: '/admin/maintenance',
+    name: 'VehicleMaintenanceView',
+    component: () => import('@pages/vehicleMaintenance/VehicleMaintenanceView.vue'),
+    meta: { breadcrumb: 'Vehicle Maintenance', title: 'Vehicle Maintenance' },
+    children: [
+      {
+        path: '',
+        name: 'VehicleMaintenancePage',
+        component: () => import('@pages/vehicleMaintenance/VehicleMaintenancePage.vue'),
+        meta: { title: 'Vehicle Maintenance' },
+      },
+    ]
+  },
   // {
   //   path: '/booking',
   //   name: 'UserBookingPage',
@@ -162,6 +176,12 @@ const routes: RouteRecordRaw[] = [
         name: 'UserCheckBookingPage',
         component: () => import('@pages/user/booking/BookingPage.vue'), 
         meta: { title: 'UserBooking' },
+      },
+      {
+        path: '/customer',
+        name: 'UserCustomerBooking',
+        component: () => import('@pages/user/booking/BookingCustomerPage.vue'), 
+        meta: { title: 'UserCustomerBooking' },
       },
       {
         path: '/car-list',
