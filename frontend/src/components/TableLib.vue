@@ -940,6 +940,7 @@ if (props.dataType === "Customer") {
       header: 'Payment Status',
       // cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('payment_status')),
       cell: ({ row }) => h('div', { class: 'capitalize' }, 'Pending'),
+      // cell: ({ row }) => h('div', { class: 'capitalize' }, 'Confirmed'),
     },
     {
       accessorKey: 'payment_method',
